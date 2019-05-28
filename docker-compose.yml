@@ -1,5 +1,5 @@
 version: '2'
-
+  
 services:
   paradb-web:
     image: paradb/paradb:localhost
@@ -11,8 +11,8 @@ services:
       - "6000:6000"
     networks:
       - paradb-local
-      
-  bioportainer-blast:
+
+  paradb-blast:
     image: wurmlab/sequenceserver
     container_name: "paradb-blast"
     stdin_open: true
@@ -22,13 +22,13 @@ services:
     networks:
       - paradb-local
     volumes:
-      - ${PWD}/paradb_blast:/db
-      
+      - ./paradb_blast:/db
+
   paradb-watchtower:
     image: v2tec/watchtower
     stdin_open: true
     restart: always
-    container_name: "bioportainer-watchtower"
+    container_name: "paradb-watchtower"
     command: --cleanup paradb-web paradb-watchtower paradb-blast
     networks:
       - paradb-local
@@ -38,6 +38,3 @@ services:
 networks:
   paradb-local:
     driver: bridge
-
-volumes:
-   paradb_blast:
